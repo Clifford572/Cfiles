@@ -1,0 +1,16 @@
+1. In a B-Tree there can multiple values in one node depending on the
+   M - 1 value of the B-Tree also the children of a B-tree is also dependant on that M value.
+   The root of a B-Tree will have at least two children unless there are no children present. And
+   All children nodes appear on the same level. These properties allow the B-Tree to self-balancing
+   and making the time complexity of the B-Tree consistent throughout. While a Binary Tree could be
+   skewed as there are no rules that enforce the trees to have things like the root should have
+   at least two nodes and that all leaves should appear at the same level. So a Binary Tree can be
+   unbalanced causing the time complexity of the tree to increase.
+
+2. The difference between a Red Black Tree compared to an AVL Tree is that a Red Black Tree is 
+   larger than an AVL Tree as the height limitation for a Red Black Tree is not as harsh compared
+   to the balance factor of an AVL Tree that demands that both the left and right side of the tree
+   to be equal. In terms of use cases something like an AVL Tree would be better suited for 
+   something like a checking the attendance of a big convention where names are inserted beforehand
+   and search ups have to be faster. While a Red Black Tree would be better suited for things like
+   a place to register your name for an event as you need to insert data very quickly.

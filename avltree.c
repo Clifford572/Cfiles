@@ -1,18 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+void clrscr() { system("@cls|clear"); }
 typedef struct avlnode {
   int value;
   int height;
   struct avlnode *right, *left;
 } avlnode;
+avlnode *root = NULL;
 // Create Node
 avlnode *createnode(int value) {
-  avlnode *newnode = (avlnode *)malloc(sizeof(avlnode));
-  newnode->value = value;
-  newnode->height = 1;
-  newnode->left = newnode->right = NULL;
-  return newnode;
+  avlnode *temp = (avlnode *)malloc(sizeof(avlnode));
+  temp->value = value;
+  temp->height = 1;
+  temp->right = temp->left = NULL;
+  return temp;
 }
+
 // Calculating Height
 int findHeight(avlnode *root) {
   if (root == NULL) {
@@ -20,14 +23,16 @@ int findHeight(avlnode *root) {
   }
   return root->height;
 }
-// Comparing the size of the left and right side
+
+// Checking which side has more children
 int max(int left, int right) {
-  if (left > right) {
-    return left;
-  } else {
+  if (left < right) {
     return right;
+  } else {
+    return left;
   }
 }
+// Finding the minimum value in the tree
 avlnode *min(avlnode *node) {
   avlnode *cur = node;
   while (cur->left != NULL) {
@@ -40,9 +45,10 @@ int balanceFactor(avlnode *root) {
   if (root == NULL) {
     return 0;
   } else {
-    return findHeight(root->left) - findHeight(root->right);
+    return (findHeight(root->left) - findHeight(root->right));
   }
 }
+// Rotate Right
 avlnode *rightRotate(avlnode *y) {
   avlnode *x = y->left;
   avlnode *x_child = x->right;
@@ -55,6 +61,7 @@ avlnode *rightRotate(avlnode *y) {
 
   return x;
 }
+// Rotate Left
 avlnode *leftRotate(avlnode *x) {
   avlnode *y = x->right;
   avlnode *y_child = y->left;
@@ -142,14 +149,6 @@ avlnode *deletenode(avlnode *root, int value) {
   }
   return root;
 }
-void printTree(avlnode *root) {
-  if (root == NULL) {
-    return;
-  }
-  printf("%d | %d\n", root->value, root->height);
-  printTree(root->left);
-  printTree(root->right);
-}
 void preOrder(avlnode *root) {
   if (root == NULL) {
     return;
@@ -175,42 +174,40 @@ void postOrder(avlnode *root) {
   printf("%d ", root->value);
 }
 int main() {
-  avlnode *root = NULL;
   while (1) {
-    if (root != NULL) {
-      printf("\n");
+    int number, temp;
+    printf("1. Insertion\n2. Deletion\n3. Traversal\n4. Exit\nChoose: ");
+    scanf("%d", &number);
+    switch (number) {
+    case 1:
+      printf("Insert: ");
+      scanf("%d", &temp);
+      root = insertnode(root, temp);
+      break;
+    case 2:
+      printf("Delete: ");
+      scanf("%d", &temp);
+      root = deletenode(root, temp);
+      break;
+    case 3:
+      printf("Preorder: ");
       preOrder(root);
       printf("\n");
+      printf("Inorder: ");
       inOrder(root);
       printf("\n");
+      printf("Postorder: ");
       postOrder(root);
       printf("\n");
+      getchar();
+      getchar();
+      break;
+    case 4:
+      printf("Thank You\n");
+      return 0;
+      break;
     }
-    printf("1. Insert\n2. Delete\n");
-    int input;
-    scanf("%d", &input);
-    // Insert
-    if (input == 1) {
-      printf("Enter a number from 1 - 100\n");
-      int insert;
-      scanf("%d", &insert);
-      if (insert <= 0 || insert > 100) {
-        continue;
-      } else {
-        root = insertnode(root, insert);
-      }
-    }
-    // Delete
-    if (input == 2) {
-      printf("Enter a number from 1 - 100\n");
-      int erase;
-      scanf("%d", &erase);
-      if (erase <= 0 || erase > 100) {
-        continue;
-      } else {
-        root = deletenode(root, erase);
-      }
-    }
+    clrscr();
   }
   return 0;
 }
